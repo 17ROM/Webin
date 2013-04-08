@@ -22,7 +22,7 @@ import com.webin.core.push.TextMessagePush;
 public class MessageFactory extends Thread{
 	private static MessageFactory _inst = null;
 	private MessagePullObj mPullObj;
-	private Queue<MessagePull> mMsgPullList = new ConcurrentLinkedQueue<MessagePull>();
+	//private Queue<MessagePull> mMsgPullList = new ConcurrentLinkedQueue<MessagePull>();
 	
 	private MessageFactory(){
 		mPullObj = new MessagePullObj();

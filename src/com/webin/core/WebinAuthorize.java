@@ -3,7 +3,6 @@ package com.webin.core;
 import java.io.PrintWriter;
 import java.security.MessageDigest;
 import java.util.Arrays;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -34,25 +33,25 @@ public class WebinAuthorize {
 	}
 
 	public String SHA1Encode(String sourceString) {
-		String resultString = null;
+		String string = null;
 		try {
-			resultString = new String(sourceString);
+			string = new String(sourceString);
 			MessageDigest md = MessageDigest.getInstance("SHA-1");
-			resultString = byte2hexString(md.digest(resultString.getBytes()));
+			string = byte2hexString(md.digest(string.getBytes()));
 		} catch (Exception ex) {
 		}
-		return resultString;
+		return string;
 	}
 
 	public final String byte2hexString(byte[] bytes) {
-		StringBuffer buf = new StringBuffer(bytes.length * 2);
+		StringBuffer string = new StringBuffer(bytes.length * 2);
 		for (int i = 0; i < bytes.length; i++) {
 			if (((int) bytes[i] & 0xff) < 0x10) {
-				buf.append("0");
+				string.append("0");
 			}
-			buf.append(Long.toString((int) bytes[i] & 0xff, 16));
+			string.append(Long.toString((int) bytes[i] & 0xff, 16));
 		}
-		return buf.toString().toUpperCase();
+		return string.toString().toUpperCase();
 	}
 
 	private boolean isAuthorize(String signature, String timestamp, String nonce) {
