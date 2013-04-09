@@ -1,6 +1,10 @@
 package com.webin.core;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -25,7 +29,6 @@ public class WebinMainServlet extends HttpServlet {
     	super();
     	mWebinAuthorize = WebinAuthorize.getInstance();
     	mMessageFactory = MessageFactory.getInstance();
-    	//mMessageFactory.start();
     }
 
 	/**
@@ -33,6 +36,8 @@ public class WebinMainServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		if (mMessageFactory != null) {
+			request.setCharacterEncoding("UTF-8");
+			response.setCharacterEncoding("UTF-8");
 			mMessageFactory.handleMessage(request.getInputStream(), response.getWriter());
 		}
 	}
@@ -43,6 +48,8 @@ public class WebinMainServlet extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		if (mWebinAuthorize != null){
+			req.setCharacterEncoding("UTF-8");
+			resp.setCharacterEncoding("UTF-8");
 			mWebinAuthorize.doAuthorize(req, resp.getWriter());
 		}
 	}

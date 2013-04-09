@@ -1,13 +1,17 @@
 package com.webin.core.push;
 
 import com.webin.core.ErrorException;
+import com.webin.core.pull.MessagePull;
 
 public class MusicMessagePush extends MessagePush {
 	private String mFuncFlag;
 	private MusicInfo mMusicInfo;
 	
-	public MusicMessagePush() {
+	public MusicMessagePush(MessagePull vMsgPull) {
 		super();
+		setToUserName(vMsgPull.getToUserName());
+		setFromUserName(vMsgPull.getFromUserName());
+		setCreateTime();
 		setMsgType(MSG_MUSIC);
 	}
 

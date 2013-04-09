@@ -3,9 +3,6 @@ package com.webin.core;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
-import java.io.Writer;
-import java.util.Queue;
-import java.util.concurrent.ConcurrentLinkedQueue;
 
 import com.webin.core.pull.EventMessagePull;
 import com.webin.core.pull.ImageMessagePull;
@@ -22,7 +19,6 @@ import com.webin.core.push.TextMessagePush;
 public class MessageFactory extends Thread{
 	private static MessageFactory _inst = null;
 	private MessagePullObj mPullObj;
-	//private Queue<MessagePull> mMsgPullList = new ConcurrentLinkedQueue<MessagePull>();
 	
 	private MessageFactory(){
 		mPullObj = new MessagePullObj();
@@ -38,15 +34,15 @@ public class MessageFactory extends Thread{
 	public synchronized void handleMessage(InputStream inputStream, final PrintWriter writer) throws IOException {
 		if (mPullObj != null) {
 			mPullObj.handleInputStream(inputStream);
-			MessagePull msgPull = classifyMessage(mPullObj, writer);
+			MessagePull msgPull = classifyMessage(mPullObj);
 			if (msgPull != null) {
-				//mMsgPullList.add(msgPull);
-				HandleAutoReplay(msgPull);
+				WebinLog.D(msgPull.toString());
+				HandleAutoReplay(msgPull, writer);
 			}
 		}
 	}
 	
-	private synchronized MessagePull classifyMessage(MessagePullObj msgobj, final PrintWriter writer){
+	private synchronized MessagePull classifyMessage(MessagePullObj msgobj){
 		MessagePull vMsgPull = null;
 		String vMsgType = mPullObj.get("MsgType");
 		if (MessagePull.MSG_TEXT.equals(vMsgType)) {
@@ -60,40 +56,26 @@ public class MessageFactory extends Thread{
 		} else if (MessagePull.MSG_EVENT.equals(vMsgType)) {
 			vMsgPull = new EventMessagePull(mPullObj);
 		}
-		if (vMsgPull != null) {
-			vMsgPull.setWriter(writer);
-		}
 		return vMsgPull;
 	}
 	
-	private void HandleAutoReplay(MessagePull vMsgPull) throws IOException {
-		Writer replay = vMsgPull.getWriter();
-		TextMessagePush msg = (TextMessagePush)makeMessagePush(MessagePush.MSG_TEXT);
-		msg.setContent("hello");
-		replay.write(msg.toString());
-		replay.flush();
-		replay.close();
+	private void HandleAutoReplay(MessagePull vMsgPull, PrintWriter writer) throws IOException {
+		TextMessagePush msg = (TextMessagePush) makeMessagePush(vMsgPull, MessagePush.MSG_TEXT);
+		msg.setContent("»¶Ó­¹Ø×¢");
+		msg.setFuncFlag("1");
+		writer.print(msg);
+		WebinLog.D(msg.toString());
 	}
 	
-	private MessagePush makeMessagePush(String vMsgType){
+	private MessagePush makeMessagePush(MessagePull vMsgPull, String vMsgType){
 		MessagePush vMsgPush = null;
 		if (MessagePush.MSG_TEXT.equals(vMsgType)){
-			vMsgPush = new TextMessagePush();
+			vMsgPush = new TextMessagePush(vMsgPull);
 		}else if (MessagePush.MSG_NEWS.equals(vMsgType)){
-			vMsgPush = new ImgTextMessagePush();
+			vMsgPush = new ImgTextMessagePush(vMsgPull);
 		}else if (MessagePush.MSG_MUSIC.equals(vMsgType)){
-			vMsgPush = new MusicMessagePush();
+			vMsgPush = new MusicMessagePush(vMsgPull);
 		}
 		return vMsgPush;
 	}
-	/*
-	public void run() {
-		while (true) {
-			if (!mMsgPullList.isEmpty()){
-				MessagePull vMsgPull = mMsgPullList.element();
-				HandleAutoReplay(vMsgPull);
-				mMsgPullList.remove(vMsgPull);
-			}
-		}
-	}*/
 }

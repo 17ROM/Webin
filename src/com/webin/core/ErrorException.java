@@ -6,11 +6,11 @@ public class ErrorException extends Exception {
 	private static boolean Debug = false;
 	
 	public ErrorException(Exception e){
-		System.out.println("[Debug]"+e);
+		WebinLog.E(e.toString());
 	}
 
 	public static void SAXParser(Exception e) {
-		System.out.println("[Debug][SAXParser]"+e);
+		WebinLog.E(e.toString());
 	}
 
 	public static void NullPointer(Object... objs) {
@@ -19,7 +19,7 @@ public class ErrorException extends Exception {
 		for (int i = 0; i < objs.length; i++) {
 			error.append(objs + " is null;");
 		}
-		System.out.println("[Debug][SAXParser]" + error.toString());
+		WebinLog.E(error.toString());
 	}
 
 }

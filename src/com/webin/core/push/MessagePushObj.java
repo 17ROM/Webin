@@ -7,11 +7,8 @@ class MessagePushObj {
 
 	public MessagePushObj() {
 		mMsgs.clear();
-		Message msg = new Message();
-		msg.put(false, "CreateTime", String.valueOf(System.currentTimeMillis()));
-		mMsgs.add(msg);
 	}
-
+	
 	public void set(boolean format, String key, String value) {
 		Message msg = new Message();
 		msg.put(format, key, value);
@@ -57,11 +54,7 @@ class MessagePushObj {
 			if (mFormat) {
 				return "<" + mKey + "><![CDATA[" + mValue + "]]></" + mKey + ">\n";
 			} else {
-				if (mValue.length() > 30) {
-					return "<" + mKey + ">\n" + mValue + "</" + mKey + ">\n";
-				} else {
-					return "<" + mKey + ">" + mValue + "</" + mKey + ">\n";
-				}
+				return "<" + mKey + ">" + mValue + "</" + mKey + ">\n";
 			}
 		}
 

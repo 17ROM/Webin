@@ -54,7 +54,7 @@ public class WebinAuthorize {
 		return string.toString().toUpperCase();
 	}
 
-	private boolean isAuthorize(String signature, String timestamp, String nonce) {
+	private boolean isAuthorize() {
 		// 将token、timestamp、nonce三个参数进行字典序排序
 		String[] arry = { TOKEN, timestamp, nonce };
 		Arrays.sort(arry);
@@ -62,7 +62,7 @@ public class WebinAuthorize {
 		String string = ArrayToString(arry);
 		string = SHA1Encode(string);
 		// 开发者获得加密后的字符串可与signature对比，标识该请求来源于微信
-		if (signature.equals(string)) {
+		if (signature.toLowerCase().equals(string.toLowerCase())) {
 			return true;
 		}
 		return false;
@@ -80,13 +80,14 @@ public class WebinAuthorize {
 	}
 
 	public void doAuthorize(HttpServletRequest req, PrintWriter writer) {
-		if (checkParameters(req)){
-			if (isAuthorize(signature, timestamp, nonce)) {
-				writer.write(echostr);
-				writer.flush();
-				writer.close();
+		if (!checkParameters(req)) {
+			writer.print("error=0");
+		} else {
+			if (isAuthorize()) {
+				writer.print(echostr);
+			} else {
+				writer.print("error=1");
 			}
 		}
 	}
-
 }

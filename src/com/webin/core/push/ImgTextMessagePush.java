@@ -3,13 +3,17 @@ package com.webin.core.push;
 import java.util.ArrayList;
 
 import com.webin.core.ErrorException;
+import com.webin.core.pull.MessagePull;
 
 public class ImgTextMessagePush extends MessagePush {
 	private ArrayList<ImageTextMessage> mMsgLists = new ArrayList<ImageTextMessage>();
 	private String mFuncFlag;
 
-	public ImgTextMessagePush() {
+	public ImgTextMessagePush(MessagePull vMsgPull) {
 		super();
+		setToUserName(vMsgPull.getToUserName());
+		setFromUserName(vMsgPull.getFromUserName());
+		setCreateTime();
 		setMsgType(MSG_NEWS);
 	}
 	

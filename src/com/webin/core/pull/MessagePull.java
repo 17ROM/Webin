@@ -1,7 +1,5 @@
 package com.webin.core.pull;
 
-import java.io.OutputStream;
-import java.io.Writer;
 
 public abstract class MessagePull {
 	public static final String MSG_TEXT = "text";
@@ -19,7 +17,6 @@ public abstract class MessagePull {
 	private String mMsgId;
 	
 	private MessagePullObj mMsgWeb;
-	private Writer mWriter;
 	
 	public MessagePull(MessagePullObj msg){
 		mMsgWeb = msg;
@@ -32,10 +29,6 @@ public abstract class MessagePull {
 		setFromUserName(msg.get("FromUserName"));
 		setToUserName(msg.get("ToUserName"));
 		setMsgType(msg.get("MsgType"));
-	}
-	
-	public void setWriter(final Writer writer) {
-		this.mWriter = writer;
 	}
 	
 	private void setCreateTime(String createTime) {
@@ -76,10 +69,6 @@ public abstract class MessagePull {
 	
 	public String getMsgType(){
 		return mMsgType;
-	}
-	
-	public Writer getWriter() {
-		return mWriter;
 	}
 	
 	@Override

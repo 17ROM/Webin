@@ -1,12 +1,16 @@
 package com.webin.core.push;
 
 import com.webin.core.ErrorException;
+import com.webin.core.pull.MessagePull;
 
 public class TextMessagePush extends MessagePush {
 	private String mContent;
 	
-	public TextMessagePush(){
+	public TextMessagePush(MessagePull vMsgPull){
 		super();
+		setToUserName(vMsgPull.getToUserName());
+		setFromUserName(vMsgPull.getFromUserName());
+		setCreateTime();
 		setMsgType(MSG_TEXT);
 	}
 	
