@@ -1,16 +1,16 @@
 package com.webin.core;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import com.webin.core.wechat.Msg;
+import com.webin.core.wechat.MsgXml;
+import com.webin.core.wechat.TextMsg;
 
 /**
  * Servlet implementation class WebinMain
@@ -38,7 +38,7 @@ public class WebinMainServlet extends HttpServlet {
 		if (mMessageFactory != null) {
 			request.setCharacterEncoding("UTF-8");
 			response.setCharacterEncoding("UTF-8");
-			mMessageFactory.handleMessage(request.getInputStream(), response.getWriter());
+			mMessageFactory.HandleGetMsg(request.getInputStream(), response.getWriter());
 		}
 	}
 

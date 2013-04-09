@@ -4,78 +4,68 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
 
-import com.webin.core.pull.EventMessagePull;
-import com.webin.core.pull.ImageMessagePull;
-import com.webin.core.pull.LinkMessagePull;
-import com.webin.core.pull.LocationMessagePull;
-import com.webin.core.pull.MessagePull;
-import com.webin.core.pull.MessagePullObj;
-import com.webin.core.pull.TextMessagePull;
-import com.webin.core.push.ImgTextMessagePush;
-import com.webin.core.push.MessagePush;
-import com.webin.core.push.MusicMessagePush;
-import com.webin.core.push.TextMessagePush;
+import com.webin.core.wechat.EventMsg;
+import com.webin.core.wechat.ImgMsg;
+import com.webin.core.wechat.LinkMsg;
+import com.webin.core.wechat.LocationMsg;
+import com.webin.core.wechat.Msg;
+import com.webin.core.wechat.MusicMsg;
+import com.webin.core.wechat.TextMsg;
 
-public class MessageFactory extends Thread{
+public class MessageFactory {
 	private static MessageFactory _inst = null;
-	private MessagePullObj mPullObj;
-	
-	private MessageFactory(){
-		mPullObj = new MessagePullObj();
+
+	private MessageFactory() {
 	}
 
 	public static MessageFactory getInstance() {
-		if (_inst==null){
+		if (_inst == null) {
 			_inst = new MessageFactory();
 		}
 		return _inst;
 	}
-	
-	public synchronized void handleMessage(InputStream inputStream, final PrintWriter writer) throws IOException {
-		if (mPullObj != null) {
-			mPullObj.handleInputStream(inputStream);
-			MessagePull msgPull = classifyMessage(mPullObj);
-			if (msgPull != null) {
-				WebinLog.D(msgPull.toString());
-				HandleAutoReplay(msgPull, writer);
-			}
+
+	public Msg GetMsg(InputStream xml) {
+		Msg msg = Msg.toBean(xml);
+		String type = msg.getMsgType();
+		msg = null;
+		if (Msg.MSG_GET_TEXT.equals(type)) {
+			msg = TextMsg.toBean(xml);
+		} else if (Msg.MSG_GET_LOCATION.equals(type)) {
+			msg = LocationMsg.toBean(xml);
+		} else if (Msg.MSG_GET_LINK.equals(type)) {
+			msg = LinkMsg.toBean(xml);
+		} else if (Msg.MSG_GET_IMAGE.equals(type)) {
+			msg = ImgMsg.toBean(xml);
+		} else if (Msg.MSG_GET_EVENT.equals(type)) {
+			msg = EventMsg.toBean(xml);
+		}
+		return msg;
+	}
+
+	public Msg PostMsg(Msg msg, String type) {
+		Msg vmsg = null;
+		if (Msg.MSG_POST_TEXT.equals(type)) {
+			vmsg = new TextMsg(msg);
+		} else if (Msg.MSG_POST_NEWS.equals(type)) {
+			vmsg = new ImgMsg(msg);
+		} else if (Msg.MSG_POST_MUSIC.equals(type)) {
+			vmsg = new MusicMsg(msg);
+		}
+		return vmsg;
+	}
+
+	public void HandleGetMsg(InputStream inputStream, PrintWriter writer) throws IOException {
+		Msg msg = GetMsg(inputStream);
+		if (msg != null) {
+			HandlePostMsg(msg, writer);
 		}
 	}
-	
-	private synchronized MessagePull classifyMessage(MessagePullObj msgobj){
-		MessagePull vMsgPull = null;
-		String vMsgType = mPullObj.get("MsgType");
-		if (MessagePull.MSG_TEXT.equals(vMsgType)) {
-			vMsgPull = new TextMessagePull(mPullObj);
-		} else if (MessagePull.MSG_LOCATION.equals(vMsgType)) {
-			vMsgPull = new LocationMessagePull(mPullObj);
-		} else if (MessagePull.MSG_LINK.equals(vMsgType)) {
-			vMsgPull = new LinkMessagePull(mPullObj);
-		} else if (MessagePull.MSG_IMAGE.equals(vMsgType)) {
-			vMsgPull = new ImageMessagePull(mPullObj);
-		} else if (MessagePull.MSG_EVENT.equals(vMsgType)) {
-			vMsgPull = new EventMessagePull(mPullObj);
-		}
-		return vMsgPull;
-	}
-	
-	private void HandleAutoReplay(MessagePull vMsgPull, PrintWriter writer) throws IOException {
-		TextMessagePush msg = (TextMessagePush) makeMessagePush(vMsgPull, MessagePush.MSG_TEXT);
-		msg.setContent("»¶Ó­¹Ø×¢");
-		msg.setFuncFlag("1");
-		writer.print(msg);
-		WebinLog.D(msg.toString());
-	}
-	
-	private MessagePush makeMessagePush(MessagePull vMsgPull, String vMsgType){
-		MessagePush vMsgPush = null;
-		if (MessagePush.MSG_TEXT.equals(vMsgType)){
-			vMsgPush = new TextMessagePush(vMsgPull);
-		}else if (MessagePush.MSG_NEWS.equals(vMsgType)){
-			vMsgPush = new ImgTextMessagePush(vMsgPull);
-		}else if (MessagePush.MSG_MUSIC.equals(vMsgType)){
-			vMsgPush = new MusicMessagePush(vMsgPull);
-		}
-		return vMsgPush;
+
+	public void HandlePostMsg(Msg msg, PrintWriter writer) throws IOException {
+		TextMsg txt = new TextMsg(msg);
+		txt.setContent("ÄãºÃ°¡");
+		txt.setFuncFlag("0");
+		writer.print(txt.toXML());
 	}
 }
