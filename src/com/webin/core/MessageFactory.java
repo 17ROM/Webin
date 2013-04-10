@@ -4,11 +4,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
 
-import com.webin.core.wechat.EventMsg;
 import com.webin.core.wechat.ImgMsg;
-import com.webin.core.wechat.LinkMsg;
-import com.webin.core.wechat.LocationMsg;
 import com.webin.core.wechat.Msg;
+import com.webin.core.wechat.MsgTag;
 import com.webin.core.wechat.MusicMsg;
 import com.webin.core.wechat.TextMsg;
 
@@ -26,21 +24,8 @@ public class MessageFactory {
 	}
 
 	public Msg GetMsg(InputStream xml) {
-		Msg msg = Msg.toBean(xml);
-		String type = msg.getMsgType();
-		msg = null;
-		if (Msg.MSG_GET_TEXT.equals(type)) {
-			msg = TextMsg.toBean(xml);
-		} else if (Msg.MSG_GET_LOCATION.equals(type)) {
-			msg = LocationMsg.toBean(xml);
-		} else if (Msg.MSG_GET_LINK.equals(type)) {
-			msg = LinkMsg.toBean(xml);
-		} else if (Msg.MSG_GET_IMAGE.equals(type)) {
-			msg = ImgMsg.toBean(xml);
-		} else if (Msg.MSG_GET_EVENT.equals(type)) {
-			msg = EventMsg.toBean(xml);
-		}
-		return msg;
+		MsgTag tag = MsgTag.toBean(xml);
+		return tag.getMsg();
 	}
 
 	public Msg PostMsg(Msg msg, String type) {
@@ -51,6 +36,7 @@ public class MessageFactory {
 			vmsg = new ImgMsg(msg);
 		} else if (Msg.MSG_POST_MUSIC.equals(type)) {
 			vmsg = new MusicMsg(msg);
+			
 		}
 		return vmsg;
 	}
@@ -67,5 +53,6 @@ public class MessageFactory {
 		txt.setContent("ÄãºÃ°¡");
 		txt.setFuncFlag("0");
 		writer.print(txt.toXML());
+		WebinLog.D(txt.toXML());
 	}
 }

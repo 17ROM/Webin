@@ -1,7 +1,5 @@
 package com.webin.core.wechat;
 
-import java.io.InputStream;
-
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 
 public class EventMsg extends Msg {
@@ -9,7 +7,7 @@ public class EventMsg extends Msg {
 	private String Event;
 	@XStreamAlias("EventKey")
 	private String EventKey;
-
+	
 	public String getEvent() {
 		return Event;
 	}
@@ -17,8 +15,10 @@ public class EventMsg extends Msg {
 	public String getEventKey() {
 		return EventKey;
 	}
-	
-	public static EventMsg toBean(InputStream xml) {
+	/**
+	 * @see GET
+	 */
+	public static EventMsg toBean(String xml) {
 		return MsgXml.toBean(xml, EventMsg.class);
 	}
 }

@@ -1,17 +1,15 @@
 package com.webin.core.wechat;
 
-import java.io.InputStream;
-
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 
 public class LinkMsg extends Msg {
 	@XStreamAlias("Title")
-	private String Title;
+	public String Title;
 	@XStreamAlias("Description")
-	private String Description;
+	public String Description;
 	@XStreamAlias("Url")
-	private String Url;
-
+	public String Url;
+	
 	public String getTitle() {
 		return Title;
 	}
@@ -23,8 +21,10 @@ public class LinkMsg extends Msg {
 	public String getUrl() {
 		return Url;
 	}
-	
-	public static LinkMsg toBean(InputStream xml) {
+	/**
+	 * @see GET
+	 */
+	public static LinkMsg toBean(String xml) {
 		return MsgXml.toBean(xml, LinkMsg.class);
 	}
 }

@@ -1,12 +1,10 @@
 package com.webin.core.wechat;
 
-import java.io.InputStream;
 import java.util.Date;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 
-@XStreamAlias("xml")
-public class Msg {
+public abstract class Msg {
 	// POST
 	public static final String MSG_POST_TEXT = "text";
 	public static final String MSG_POST_UNKNOW = "null";
@@ -21,17 +19,17 @@ public class Msg {
 	public static final String MSG_GET_LINK = "link";
 	
 	@XStreamAlias("MsgType")
-	private String MsgType = MSG_POST_UNKNOW;
+	protected String MsgType = MSG_POST_UNKNOW;
 	@XStreamAlias("CreateTime")
-	private String CreateTime;
+	protected String CreateTime;
 	@XStreamAlias("FromUserName")
-	private String FromUserName;
+	protected String FromUserName;
 	@XStreamAlias("ToUserName")
-	private String ToUserName;
+	protected String ToUserName;
 	@XStreamAlias("FuncFlag")
-	private String FuncFlag;
+	protected String FuncFlag;
 	@XStreamAlias("MsgId")
-	private String MsgId;
+	protected String MsgId;
 	
 	protected void setCreateTime(){
 		this.CreateTime = String.valueOf(new Long(new Date().getTime()));
@@ -71,9 +69,5 @@ public class Msg {
 	
 	public String getMsgType(){
 		return MsgType;
-	}
-	
-	public static Msg toBean(InputStream xml) {
-		return MsgXml.toBean(xml, Msg.class);
 	}
 }

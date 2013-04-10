@@ -12,10 +12,10 @@ public class MsgXml {
 		return xstream.toXML(obj);
 	}
 
-	public static <T> T toBean(InputStream input, Class<T> cls) {
+	public static <T> T toBean(InputStream xml, Class<T> cls) {
 		XStream xstream = new XStream(new DomDriver("utf-8"));
 		xstream.processAnnotations(cls);
-		T obj = (T) xstream.fromXML(input);
+		T obj = (T) xstream.fromXML(xml);
 		return obj;
 	}
 	

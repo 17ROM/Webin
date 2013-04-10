@@ -47,5 +47,4 @@ public class WebinLog {
 			e.printStackTrace();
 		}
 	}
-
 }

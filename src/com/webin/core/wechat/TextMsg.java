@@ -1,21 +1,22 @@
 package com.webin.core.wechat;
 
-import java.io.InputStream;
-
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 
 @XStreamAlias("xml")
 public class TextMsg extends Msg {
 	@XStreamAlias("Content")
-	private String Content;
+	public String Content;
 
-	public TextMsg(Msg vMsgPull) {
-		setToUserName(vMsgPull.getToUserName());
-		setFromUserName(vMsgPull.getFromUserName());
+	/**
+	 * @see POST
+	 */
+	public TextMsg(Msg msg) {
+		setToUserName(msg.FromUserName);
+		setFromUserName(msg.ToUserName);
 		setCreateTime();
 		setMsgType(MSG_POST_TEXT);
 	}
-
+	
 	public void setContent(String context) {
 		this.Content = context;
 	}
@@ -27,8 +28,10 @@ public class TextMsg extends Msg {
 	public String toXML() {
 		return MsgXml.toXML(this);
 	}
-
-	public static TextMsg toBean(InputStream xml) {
+	/**
+	 * @see GET
+	 */
+	public static TextMsg toBean(String xml) {
 		return MsgXml.toBean(xml, TextMsg.class);
 	}
 }

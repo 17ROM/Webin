@@ -1,6 +1,5 @@
 package com.webin.core.wechat;
 
-import java.io.InputStream;
 import java.util.List;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
@@ -15,15 +14,18 @@ public class ImgMsg extends Msg {
 	@XStreamAlias("PicUrl")
 	private String PicUrl;
 
-	public String getPicUrl() {
-		return PicUrl;
-	}
-
-	public ImgMsg(Msg vMsgPull) {
-		setToUserName(vMsgPull.getToUserName());
-		setFromUserName(vMsgPull.getFromUserName());
+	/**
+	 * @see POST
+	 */
+	public ImgMsg(Msg msg) {
+		setToUserName(msg.FromUserName);
+		setFromUserName(msg.ToUserName);
 		setCreateTime();
 		setMsgType(MSG_POST_NEWS);
+	}
+	
+	public String getPicUrl() {
+		return PicUrl;
 	}
 
 	public void setImgMsgList(ImgMsgList msg) {
@@ -79,7 +81,10 @@ public class ImgMsg extends Msg {
 		return MsgXml.toXML(this);
 	}
 
-	public static ImgMsg toBean(InputStream xml) {
+	/**
+	 * @see GET
+	 */
+	public static ImgMsg toBean(String xml) {
 		return MsgXml.toBean(xml, ImgMsg.class);
 	}
 }

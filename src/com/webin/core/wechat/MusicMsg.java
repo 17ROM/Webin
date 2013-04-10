@@ -7,9 +7,12 @@ public class MusicMsg extends Msg {
 	@XStreamAlias("Music")
 	private MusicInfo Music;
 
-	public MusicMsg(Msg vMsgPull) {
-		setToUserName(vMsgPull.getToUserName());
-		setFromUserName(vMsgPull.getFromUserName());
+	/**
+	 * @see POST
+	 */
+	public MusicMsg(Msg msg) {
+		setToUserName(msg.FromUserName);
+		setFromUserName(msg.ToUserName);
 		setCreateTime();
 		setMsgType(MSG_POST_MUSIC);
 	}

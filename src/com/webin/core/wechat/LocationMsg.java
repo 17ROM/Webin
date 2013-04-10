@@ -1,7 +1,5 @@
 package com.webin.core.wechat;
 
-import java.io.InputStream;
-
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 
 public class LocationMsg extends Msg {
@@ -13,7 +11,7 @@ public class LocationMsg extends Msg {
 	private String Scale;
 	@XStreamAlias("Label")
 	private String Label;
-
+	
 	public String getLocation_X() {
 		return Location_X;
 	}
@@ -29,8 +27,10 @@ public class LocationMsg extends Msg {
 	public String getLabel() {
 		return Label;
 	}
-
-	public static LocationMsg toBean(InputStream xml) {
+	/**
+	 * @see GET
+	 */
+	public static LocationMsg toBean(String xml) {
 		return MsgXml.toBean(xml, LocationMsg.class);
 	}
 }

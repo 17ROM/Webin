@@ -8,10 +8,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.webin.core.wechat.Msg;
-import com.webin.core.wechat.MsgXml;
-import com.webin.core.wechat.TextMsg;
-
 /**
  * Servlet implementation class WebinMain
  */
