@@ -1,5 +1,7 @@
 package com.webin.core;
 
+import org.keplerproject.luajava.LuaException;
+
 
 public class ErrorException extends Exception {
 	
@@ -20,6 +22,10 @@ public class ErrorException extends Exception {
 			error.append(objs + " is null;");
 		}
 		WebinLog.E(error.toString());
+	}
+
+	public static void Lua(LuaException e) {
+		WebinLog.E(e.toString());
 	}
 
 }

@@ -1,8 +1,7 @@
 package com.webin.core.wechat;
 
-import java.util.Date;
-
 import com.thoughtworks.xstream.annotations.XStreamAlias;
+import com.webin.core.WebinUtil;
 
 public abstract class Msg {
 	// POST
@@ -32,7 +31,7 @@ public abstract class Msg {
 	protected String MsgId;
 	
 	protected void setCreateTime(){
-		this.CreateTime = String.valueOf(new Long(new Date().getTime()));
+		this.CreateTime = WebinUtil.getTime();
 	}
 
 	protected void setFromUserName(String fromUserName) {

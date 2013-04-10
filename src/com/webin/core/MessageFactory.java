@@ -12,8 +12,10 @@ import com.webin.core.wechat.TextMsg;
 
 public class MessageFactory {
 	private static MessageFactory _inst = null;
+	private WebinLua mLua;
 
 	private MessageFactory() {
+		mLua = WebinLua.getInstance();
 	}
 
 	public static MessageFactory getInstance() {
@@ -36,23 +38,14 @@ public class MessageFactory {
 			vmsg = new ImgMsg(msg);
 		} else if (Msg.MSG_POST_MUSIC.equals(type)) {
 			vmsg = new MusicMsg(msg);
-			
 		}
 		return vmsg;
 	}
 
 	public void HandleGetMsg(InputStream inputStream, PrintWriter writer) throws IOException {
-		Msg msg = GetMsg(inputStream);
-		if (msg != null) {
-			HandlePostMsg(msg, writer);
+		MsgTag tag = MsgTag.toBean(inputStream);
+		if (tag != null) {
+			mLua.HandleWeChat(tag, writer);
 		}
-	}
-
-	public void HandlePostMsg(Msg msg, PrintWriter writer) throws IOException {
-		TextMsg txt = new TextMsg(msg);
-		txt.setContent("ÄãºÃ°¡");
-		txt.setFuncFlag("0");
-		writer.print(txt.toXML());
-		WebinLog.D(txt.toXML());
 	}
 }
