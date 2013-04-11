@@ -10,7 +10,7 @@ public class WebinLog {
 	private static final String DEBUG = "DEBUG";
 	private static final String ERROR = "ERROR";
 	public static void Log(String tag, String msg) throws IOException {
-		String errorlog = "webinlog.txt";
+		String errorlog = WebinConfig.LOGFILE;
 		String savePath = "";
 		String logFilePath = "";
 		FileWriter fw = null;

@@ -1,13 +1,10 @@
 package com.webin.core;
 
-import org.keplerproject.luajava.LuaException;
-
-
 public class ErrorException extends Exception {
-	
+
 	private static boolean Debug = false;
-	
-	public ErrorException(Exception e){
+
+	public ErrorException(Exception e) {
 		WebinLog.E(e.toString());
 	}
 
@@ -23,9 +20,4 @@ public class ErrorException extends Exception {
 		}
 		WebinLog.E(error.toString());
 	}
-
-	public static void Lua(LuaException e) {
-		WebinLog.E(e.toString());
-	}
-
 }

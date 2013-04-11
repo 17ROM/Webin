@@ -5,7 +5,7 @@ import java.io.InputStream;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 
 @XStreamAlias("xml")
-public class MsgTag {
+public class MsgTag{
 	// custom msg
 	@XStreamAlias("ToUserName")
 	public String ToUserName;
@@ -51,6 +51,10 @@ public class MsgTag {
 	public String EventKey;
 
 	public static MsgTag toBean(InputStream xml) {
+		return MsgXml.toBean(xml, MsgTag.class);
+	}
+	
+	public static MsgTag toBean(String xml) {
 		return MsgXml.toBean(xml, MsgTag.class);
 	}
 	
