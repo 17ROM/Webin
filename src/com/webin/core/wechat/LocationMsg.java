@@ -2,6 +2,7 @@ package com.webin.core.wechat;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 
+@XStreamAlias("xml")
 public class LocationMsg extends Msg {
 	@XStreamAlias("Location_X")
 	private String Location_X;

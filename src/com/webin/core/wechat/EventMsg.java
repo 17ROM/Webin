@@ -2,6 +2,7 @@ package com.webin.core.wechat;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 
+@XStreamAlias("xml")
 public class EventMsg extends Msg {
 	@XStreamAlias("Event")
 	private String Event;

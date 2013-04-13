@@ -2,6 +2,7 @@ package com.webin.core.wechat;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 
+@XStreamAlias("xml")
 public class LinkMsg extends Msg {
 	@XStreamAlias("Title")
 	public String Title;
