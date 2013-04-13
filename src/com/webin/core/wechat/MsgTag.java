@@ -98,6 +98,10 @@ public class MsgTag{
 		return msg;
 	}
 	
+	public boolean isMsgType(String msg){
+		return msg.equals(MsgType);
+	}
+	
 	public <T> T toMsg() {
 		return (T) getMsg();
 	}
