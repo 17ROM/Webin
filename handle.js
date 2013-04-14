@@ -14,6 +14,7 @@
  *   - ImgMsg
  */
 importPackage(Packages.com.webin.core.wechat);
+//include("textchat.js");
 
 /**
  * return system error
@@ -61,11 +62,11 @@ function handleEventMsg(tag) {
 	var event = tag.getMsg();
 	var replay = new TextMsg(event);
 	if (event.isEvent(EventMsg.EVENT_SUBSCRIBE)){
-		replay.setContent("»¶Ó­¹Ø×¢");
+		replay.setContent("ï¿½ï¿½Ó­ï¿½ï¿½×¢");
 	} else if(event.isEvent(EventMsg.EVENT_UNSUBSCRIBE)) {
-		replay.setContent("ÔÙ´Î¹Ø×¢");
+		replay.setContent("ï¿½Ù´Î¹ï¿½×¢");
 	} else {
-		replay.setContent("¡£¡£¡£");
+		replay.setContent("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
 	}
 	return replay.toXML();
 }
@@ -73,6 +74,6 @@ function handleEventMsg(tag) {
 function handleTextMsg(tag){
 	var txt = tag.getMsg();
 	var replay = new TextMsg(txt);
-	replay.setContent("È»ºóÄØ");
+	replay.setContent("È»ï¿½ï¿½ï¿½ï¿½");
 	return replay.toXML();
 }
