@@ -99,6 +99,7 @@ public class InfoMenu implements IHandle {
 			break;
 		case 3:
 			menuPhone(tag, writer);
+			break;
 		case 4:
 			menuShare(tag, writer);
 			break;
