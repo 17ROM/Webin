@@ -25,7 +25,7 @@ public class HelpMenu implements IHandle{
 		context.append("现已开通功能:\n");
 		context.append("1、信息\n");
 		context.append("2、照片\n");
-		context.append("回复文本即可查看.");
+		context.append("回复文本即可查看.如果你不想谈这些，那随便聊点什么吧.");
 		replay.setContent(context.toString());
 		writer.print(replay.toXML());
 	}

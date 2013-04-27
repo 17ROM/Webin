@@ -7,7 +7,7 @@ import com.webin.core.wechat.TextMsg;
 
 public class InfoMenu implements IHandle {
 	private int mItemWord = -1;
-	private String[] mWord = new String[] { "信息", "女朋友", "结婚", "号码", "在|日|草|艹|擦|大师"};
+	private String[] mWord = new String[] { "信息", "女朋友", "结婚", "号码", "在|日|草|艹|擦|大师|大湿"};
 
 	@Override
 	public boolean isMsg(String msg) {
@@ -77,9 +77,9 @@ public class InfoMenu implements IHandle {
 			context.append("今天太阳不晒啊");
 		}else if (tag.Content.equals("擦")){
 			context.append("玻璃很干净了，你还要擦吗？");
-		}else if (tag.Content.equals("草")|tag.Content.equals("艹")){
+		}else if (tag.Content.equals("草")||tag.Content.equals("艹")){
 			context.append("草都被牛吃光了，你才来。");
-		}else if (tag.Content.equals("大师")){
+		}else if (tag.Content.equals("大师")||tag.Content.equals("大湿")){
 			context.append("阿弥陀佛，我佛慈悲。");
 		}
 		menuNormal(tag, writer, context.toString());
