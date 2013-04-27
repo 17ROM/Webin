@@ -6,19 +6,19 @@ import com.webin.core.wechat.MsgTag;
 import com.webin.core.wechat.TextMsg;
 
 public class InfoMenu implements IHandle {
-	private String mWord = "信息|女朋友|结婚|号码|在|日|草|艹|擦|大师|大湿|你妹|睡觉|照片|聊天|不给力";
+	private String mWord = "信息|女朋友|结婚|号码|在|日|草|艹|擦|大师|大湿|你妹|睡觉|照片|聊天|不给你啊";
 
 	@Override
 	public boolean isMsg(String msg) {
-		boolean bismsg = false;
+		/*boolean bismsg = false;
 		String[] words = mWord.split("|");
 		for (String word : words) {
 			if (msg.contains(word)) {
 				bismsg = true;
 				break;
 			}
-		}
-		return bismsg;
+		}*/
+		return mWord.contains(msg);
 	}
 
 	private void menuInfo(MsgTag tag, PrintWriter writer) {
@@ -83,6 +83,8 @@ public class InfoMenu implements IHandle {
 			context.append("随便说点什么吧");
 		}else if (tag.Content.equals("不给力啊")||tag.Content.equals("不给力")){
 			context.append("说点其他的吧");
+		}else {
+			context.append("然后呢");
 		}
 		menuNormal(tag, writer, context.toString());
 	}
