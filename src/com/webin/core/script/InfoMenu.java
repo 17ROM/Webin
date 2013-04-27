@@ -6,25 +6,16 @@ import com.webin.core.wechat.MsgTag;
 import com.webin.core.wechat.TextMsg;
 
 public class InfoMenu implements IHandle {
-	private int mItemWord = -1;
-	private String[] mWord = new String[] { "信息", "女朋友", "结婚", "号码", "在|日|草|艹|擦|大师|大湿"};
+	private String mWord = "信息|女朋友|结婚|号码|在|日|草|艹|擦|大师|大湿|你妹|睡觉|照片|聊天|不给力";
 
 	@Override
 	public boolean isMsg(String msg) {
-		mItemWord = -1;
 		boolean bismsg = false;
-		for (String word : mWord) {
-			mItemWord++;
-			if (word.contains("|")){
-				if (word.contains(msg)){
-					bismsg = true;
-					break;
-				}
-			}else {
-				if (msg.contains(word)) {
-					bismsg = true;
-					break;
-				}
+		String[] words = mWord.split("|");
+		for (String word : words) {
+			if (msg.contains(word)) {
+				bismsg = true;
+				break;
 			}
 		}
 		return bismsg;
@@ -54,7 +45,6 @@ public class InfoMenu implements IHandle {
 
 	private void menuNormal(MsgTag tag, PrintWriter writer, String msg) {
 		TextMsg replay = new TextMsg(tag.getMsg());
-		StringBuilder context = new StringBuilder();
 		replay.setContent(msg);
 		writer.print(replay.toXML());
 	}
@@ -81,28 +71,34 @@ public class InfoMenu implements IHandle {
 			context.append("草都被牛吃光了，你才来。");
 		}else if (tag.Content.equals("大师")||tag.Content.equals("大湿")){
 			context.append("阿弥陀佛，我佛慈悲。");
+		}else if (tag.Content.equals("你妹")){
+			context.append("你妹妹多大了");
+		}else if (tag.Content.equals("你妹")){
+			context.append("你妹妹多大了");
+		}else if (tag.Content.equals("睡觉")){
+			context.append("吃饱没就睡了");
+		}else if (tag.Content.equals("照片")){
+			context.append("长的不帅,没有照片");
+		}else if (tag.Content.equals("聊天")){
+			context.append("随便说点什么吧");
+		}else if (tag.Content.equals("不给力啊")||tag.Content.equals("不给力")){
+			context.append("说点其他的吧");
 		}
 		menuNormal(tag, writer, context.toString());
 	}
 
 	@Override
 	public void handleMsg(MsgTag tag, PrintWriter writer) {
-		switch (mItemWord++){
-		case 0:
+		if (tag.Content.equals("信息")){
 			menuInfo(tag, writer);
-			break;
-		case 1:
+		}else if (tag.Content.equals("女朋友")){
 			menuGirl(tag, writer);
-			break;
-		case 2:
+		}else if (tag.Content.equals("结婚")){
 			menuMarry(tag, writer);
-			break;
-		case 3:
+		}else if(tag.Content.equals("号码")){
 			menuPhone(tag, writer);
-			break;
-		case 4:
+		}else {
 			menuShare(tag, writer);
-			break;
 		}
 	}
 

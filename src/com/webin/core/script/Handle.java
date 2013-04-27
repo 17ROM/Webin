@@ -22,7 +22,7 @@ public class Handle {
 	private static void handleTextMsg(MsgTag tag, PrintWriter writer){
 		TextMsg replay = new TextMsg(tag.getMsg());
 		StringBuilder context = new StringBuilder();
-		context.append("回复[帮助]可以查看更多!");
+		context.append("然后呢");
 		replay.setContent(context.toString());
 		writer.print(replay.toXML());
 	}
