@@ -34,6 +34,10 @@ public class RobotDatabase {
 		}
 		return _inst;
 	}
+	
+	/*
+	WebinRobot _id _code _weight _reply0
+	*/
 
 	public ResultSet executeQuery(String code) {
 		ResultSet result = null;
