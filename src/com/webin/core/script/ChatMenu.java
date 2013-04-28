@@ -5,6 +5,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import com.webin.core.db.RobotDatabase;
+import com.webin.core.robot.HexString;
 import com.webin.core.wechat.MsgTag;
 import com.webin.core.wechat.TextMsg;
 
@@ -33,12 +34,13 @@ public class ChatMenu implements IHandle {
 			words = tag.Content.split("£¬");
 		}
 		if (words.length == 3 && words[0].equals("ÊÕÂ¼")){
-			ResultSet result = mRobotDatabase.executeQuery(words[1]);
+			String code = HexString.StringtoHex(words[1]);
+			ResultSet result = mRobotDatabase.executeQuery(code);
 			try {
 				if (result.first()){
-					mRobotDatabase.executeUpdate(words[1], words[2]);
+					mRobotDatabase.executeUpdate(code, words[2]);
 				}else{
-					mRobotDatabase.executeInsert(words[1], words[2]);
+					mRobotDatabase.executeInsert(code, words[2]);
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();
@@ -53,7 +55,8 @@ public class ChatMenu implements IHandle {
 	 * WebinRobot _id _code _weight _reply0
 	 */
 	private boolean isHandleByRobot(MsgTag tag, PrintWriter writer) {
-		ResultSet result = mRobotDatabase.executeQuery(tag.Content);
+		String code = HexString.StringtoHex(tag.Content);
+		ResultSet result = mRobotDatabase.executeQuery(code);
 		try {
 			if (result.first()){
 				int weight = result.getInt(3);
