@@ -6,7 +6,7 @@ import com.webin.core.wechat.MsgTag;
 import com.webin.core.wechat.TextMsg;
 
 public class InfoMenu implements IHandle {
-	private String mWord = "信息|女朋友|结婚|号码|在|日|草|艹|擦|晕|大师|大湿|你妹|睡觉|照片|聊天|不给力啊";
+	private String mWord = "信息|女朋友|结婚|号码|在|日|草|艹|擦|晕|大师|大湿|你妹|你好|睡觉|照片|聊天|不给力啊";
 
 	@Override
 	public boolean isMsg(String msg) {
@@ -83,6 +83,8 @@ public class InfoMenu implements IHandle {
 			context.append("随便说点什么吧");
 		}else if (tag.Content.equals("不给力啊")||tag.Content.equals("不给力")){
 			context.append("说点其他的吧");
+		}else if (tag.Content.equals("你好")){
+			context.append("还好");
 		}else {
 			context.append("然后呢");
 		}
