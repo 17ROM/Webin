@@ -9,8 +9,7 @@ public class HelpMenu implements IHandle{
 	
 	public static final String HELP_ZH = "°ïÖú";
 
-	@Override
-	public boolean isMsg(String msg) {
+	public static boolean isMsg(String msg) {
 		if (HELP_ZH.equals(msg)){
 			return true;
 		}

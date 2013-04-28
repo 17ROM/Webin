@@ -4,34 +4,21 @@ import java.io.PrintWriter;
 
 import com.webin.core.wechat.MsgTag;
 
-public class MenuManager {
-	
-	private IHandle help = new HelpMenu();
-	private IHandle info = new InfoMenu();
-	
-	private int mode = -1;
 
-	public boolean isMenuMode(String content) {
-		if (help.isMsg(content)){
-			mode = 0;
-			return true;
-		}
-		if (info.isMsg(content)){
-			mode = 1;
-			return true;
-		}
-		return false;
+public class MenuManager {
+	private ChatMenu mChatMenu = new ChatMenu();
+	private HelpMenu mHelpMenu = new HelpMenu();
+
+	public boolean isHelpMode(String content) {
+		return HelpMenu.isMsg(content);
 	}
 
-	public void HandleMenuMsg(MsgTag tag, PrintWriter writer) {
-		switch (mode){
-		case 0:
-			help.handleMsg(tag, writer);
-			break;
-		case 1:
-			info.handleMsg(tag, writer);
-			break;
-		}
+	public void handleHelpMsg(MsgTag tag, PrintWriter writer) {
+		mHelpMenu.handleMsg(tag, writer);
+	}
+
+	public void handleChatMsg(MsgTag tag, PrintWriter writer) {
+		mChatMenu.handleMsg(tag, writer);
 	}
 
 }

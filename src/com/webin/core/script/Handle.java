@@ -37,11 +37,13 @@ public class Handle {
 			handleSubscribe(tag, writer);
 		} else if (tag.isMsgType(Msg.MSG_GET_TEXT)){
 			// 进入帮助模式
-			if (mMenuManager.isMenuMode(tag.Content)){
-				mMenuManager.HandleMenuMsg(tag, writer);
+			if (mMenuManager.isHelpMode(tag.Content)){
+				mMenuManager.handleHelpMsg(tag, writer);
 			}else {
-				handleTextMsg(tag, writer);
+				mMenuManager.handleChatMsg(tag, writer);
 			}
+		} else {
+			handleTextMsg(tag, writer);
 		}
 	}
 
