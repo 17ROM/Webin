@@ -4,13 +4,12 @@ import java.io.PrintWriter;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import com.webin.core.db.RobotDatabase;
+import com.webin.core.db.DbOperate;
 import com.webin.core.robot.HexString;
 import com.webin.core.wechat.MsgTag;
 import com.webin.core.wechat.TextMsg;
 
 public class ChatMenu implements IHandle {
-	private RobotDatabase mRobotDatabase = RobotDatabase.getDefault();
 
 	private void menuNormal(MsgTag tag, PrintWriter writer, String msg) {
 		TextMsg replay = new TextMsg(tag.getMsg());
@@ -35,12 +34,12 @@ public class ChatMenu implements IHandle {
 		}
 		if (words.length == 3 && words[0].equals("สียผ")){
 			String code = HexString.StringtoHex(words[1]);
-			ResultSet result = mRobotDatabase.executeQuery(code);
+			ResultSet result = DbOperate.executeQuery(code);
 			try {
 				if (result.first()){
-					mRobotDatabase.executeUpdate(code, words[2]);
+					DbOperate.executeUpdate(code, words[2]);
 				}else{
-					mRobotDatabase.executeInsert(code, words[2]);
+					DbOperate.executeInsert(code, words[2]);
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();
@@ -56,7 +55,7 @@ public class ChatMenu implements IHandle {
 	 */
 	private boolean isHandleByRobot(MsgTag tag, PrintWriter writer) {
 		String code = HexString.StringtoHex(tag.Content);
-		ResultSet result = mRobotDatabase.executeQuery(code);
+		ResultSet result = DbOperate.executeQuery(code);
 		try {
 			if (result.first()){
 				int weight = result.getInt(3);
