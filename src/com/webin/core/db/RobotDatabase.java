@@ -6,14 +6,26 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import javax.sql.DataSource;
+
 public class RobotDatabase {
-	private DbConnection mDbCon = null;
-	private Connection mConnection = null;
 	private static RobotDatabase _inst = null;
+	private InitialContext mInitContext = null;
+	private DataSource mDataSource = null;
+	private Connection mConnection = null;
 
 	private RobotDatabase() {
-		mDbCon = DbConnection.getDefault();
-		mConnection = mDbCon.getConnection();
+		try {
+			mInitContext = new InitialContext();
+			mDataSource = (DataSource) mInitContext.lookup("java:comp/env/jdbc/WebinRobotDb");
+			mConnection = mDataSource.getConnection();
+		} catch (NamingException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public static RobotDatabase getDefault() {
