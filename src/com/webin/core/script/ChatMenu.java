@@ -1,8 +1,6 @@
 package com.webin.core.script;
 
 import java.io.PrintWriter;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 
 import com.webin.core.db.RobotDatabase;
 import com.webin.core.robot.HexString;
@@ -35,15 +33,11 @@ public class ChatMenu implements IHandle {
 		}
 		if (words.length == 3 && words[0].equals("สียผ")){
 			String code = HexString.StringtoHex(words[1]);
-			ResultSet result = mRobotDatabase.executeQuery(code);
-			try {
-				if (result.first()){
-					mRobotDatabase.executeUpdate(code, words[2]);
-				}else{
-					mRobotDatabase.executeInsert(code, words[2]);
-				}
-			} catch (SQLException e) {
-				e.printStackTrace();
+			boolean result = mRobotDatabase.executeQuery(code);
+			if (result) {
+				mRobotDatabase.executeUpdate(code, words[2]);
+			} else {
+				mRobotDatabase.executeInsert(code, words[2]);
 			}
 			menuUpdate(tag, writer);
 			return true;
@@ -56,16 +50,10 @@ public class ChatMenu implements IHandle {
 	 */
 	private boolean isHandleByRobot(MsgTag tag, PrintWriter writer) {
 		String code = HexString.StringtoHex(tag.Content);
-		ResultSet result = mRobotDatabase.executeQuery(code);
-		try {
-			if (result.first()){
-				int weight = result.getInt(3);
-				String content = result.getString(3 + weight);
-				menuNormal(tag, writer, content);
-				return true;
-			}
-		} catch (SQLException e1) {
-			e1.printStackTrace();
+		String result = mRobotDatabase.executeQueryResult(code);
+		if (result != null) {
+			menuNormal(tag, writer, result);
+			return true;
 		}
 		return false;
 	}

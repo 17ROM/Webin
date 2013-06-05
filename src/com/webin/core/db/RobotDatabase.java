@@ -1,30 +1,49 @@
 package com.webin.core.db;
 
 import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
-import javax.sql.DataSource;
+import org.apache.commons.dbcp.BasicDataSource;
+
+import com.sina.sae.util.SaeUserInfo;
 
 public class RobotDatabase {
 	private static RobotDatabase _inst = null;
-	private InitialContext mInitContext = null;
-	private DataSource mDataSource = null;
 	private Connection mConnection = null;
 
 	private RobotDatabase() {
+	}
+	
+	public Connection getConnection(){
+		Connection connect = null;
+		String url = "jdbc:mysql://w.rdc.sae.sina.com.cn:3307/app_webin";
+		String username = SaeUserInfo.getAccessKey();
+		String password = SaeUserInfo.getSecretKey();
+		BasicDataSource bds = new BasicDataSource();
+		bds.setDriverClassName("com.mysql.jdbc.Driver");
+		bds.setUrl(url);
+		bds.setUsername(username);
+		bds.setPassword(password);
+		bds.setMaxActive(14);
+		bds.setMaxWait(3000);
 		try {
-			mInitContext = new InitialContext();
-			mDataSource = (DataSource) mInitContext.lookup("java:comp/env/jdbc/WebinRobotDb");
-			mConnection = mDataSource.getConnection();
-		} catch (NamingException e) {
-			e.printStackTrace();
+			connect = bds.getConnection();
 		} catch (SQLException e) {
 			e.printStackTrace();
+		}
+		mConnection = connect;
+		return connect;
+	}
+	
+	public void freeConnection(){
+		if (mConnection != null){
+			try {
+				mConnection.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 
@@ -39,11 +58,12 @@ public class RobotDatabase {
 		int result = -1;
 		String sql = "UPDATE WebinRobot SET _reply0 = +'" + replay + "' WHERE _code = '" + code + "'";
 		try {
-			Statement statement =  mConnection.createStatement();
+			Statement statement =  getConnection().createStatement();
 			result = statement.executeUpdate(sql);
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		freeConnection();
 		return result;
 	}
 	
@@ -56,23 +76,43 @@ public class RobotDatabase {
 				+ "1, '"
 				+ replay + "')";
 		try {
-			Statement statement = mConnection.createStatement();
+			Statement statement = getConnection().createStatement();
 			result = statement.execute(sql);
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		freeConnection();
 		return result;
 	}
 	
-	public ResultSet executeQuery(String code) {
-		ResultSet result = null;
+	public boolean executeQuery(String code) {
+		boolean result = false;
 		String sql = "SELECT * FROM WebinRobot WHERE _code='" + code + "'";
 		try {
-			PreparedStatement statement = mConnection.prepareStatement(sql);
-			result = statement.executeQuery();
+			Statement statement = getConnection().createStatement();
+			ResultSet query = statement.executeQuery(sql);
+			result = query.first();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		freeConnection();
+		return result;
+	}
+	
+	public String executeQueryResult(String code) {
+		String result = null;
+		String sql = "SELECT * FROM WebinRobot WHERE _code='" + code + "'";
+		try {
+			Statement statement = getConnection().createStatement();
+			ResultSet query = statement.executeQuery(sql);
+			if (query.first()){
+				int weight = query.getInt(3);
+				result = query.getString(3 + weight);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		freeConnection();
 		return result;
 	}
 
@@ -86,5 +126,4 @@ public class RobotDatabase {
 			mConnection = null;
 		}
 	}
-
 }
