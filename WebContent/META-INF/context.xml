@@ -1,7 +1,7 @@
 <Context debug="0">
 	<Resource name="jdbc/WebinRobotDb" auth="Container" type="javax.sql.DataSource"
 		driverClassName="com.mysql.jdbc.Driver"
-		url="jdbc:mysql://j03.netjsp.com:3310/jc00001?autoReconnect=true&amp;useUnicode=true&amp;characterEncoding=utf-8&amp;mysqlEncoding=utf8"
-		username="jc00001" password="4fhf5NGr" maxActive="14" maxIdle="3"
+		url="jdbc:mysql://w.rdc.sae.sina.com.cn:3307/app_webin?autoReconnect=true&amp;useUnicode=true&amp;characterEncoding=utf-8&amp;mysqlEncoding=utf8"
+		username="k5mooowww3" password="x33jxm2wi2i3h0xlx2h3115z12k14w4kxzhlkjjk" maxActive="14" maxIdle="3"
 		removeAbandoned="true" maxWait="3000" />
 </Context> 
