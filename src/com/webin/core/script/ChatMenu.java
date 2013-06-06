@@ -2,13 +2,13 @@ package com.webin.core.script;
 
 import java.io.PrintWriter;
 
-import com.webin.core.db.RobotDatabase;
+import com.webin.core.db.DbOperate;
 import com.webin.core.robot.HexString;
 import com.webin.core.wechat.MsgTag;
 import com.webin.core.wechat.TextMsg;
 
 public class ChatMenu implements IHandle {
-	private RobotDatabase mRobotDatabase = RobotDatabase.getDefault();
+	private DbOperate dbop = new DbOperate();
 
 	private void menuNormal(MsgTag tag, PrintWriter writer, String msg) {
 		TextMsg replay = new TextMsg(tag.getMsg());
@@ -33,11 +33,11 @@ public class ChatMenu implements IHandle {
 		}
 		if (words.length == 3 && words[0].equals("สียผ")){
 			String code = HexString.StringtoHex(words[1]);
-			boolean result = mRobotDatabase.executeQuery(code);
+			boolean result = dbop.executeQuery(code);
 			if (result) {
-				mRobotDatabase.executeUpdate(code, words[2]);
+				dbop.executeUpdate(code, words[2]);
 			} else {
-				mRobotDatabase.executeInsert(code, words[2]);
+				dbop.executeInsert(code, words[2]);
 			}
 			menuUpdate(tag, writer);
 			return true;
@@ -50,7 +50,7 @@ public class ChatMenu implements IHandle {
 	 */
 	private boolean isHandleByRobot(MsgTag tag, PrintWriter writer) {
 		String code = HexString.StringtoHex(tag.Content);
-		String result = mRobotDatabase.executeQueryResult(code);
+		String result = dbop.executeQueryResult(code);
 		if (result != null) {
 			menuNormal(tag, writer, result);
 			return true;
