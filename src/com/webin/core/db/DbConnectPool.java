@@ -26,7 +26,15 @@ public class DbConnectPool {
 	}
 
 	public synchronized void freeConnection(Connection conn) {
-		freeConns.addElement(conn);
+		try {
+			if (!conn.isClosed()){
+				freeConns.addElement(conn);
+			}else{
+				freeConns.remove(conn);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 		notifyAll();
 	}
 
