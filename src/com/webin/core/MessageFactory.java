@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
 
-import com.webin.core.script.Handle;
 import com.webin.core.wechat.ImgMsg;
 import com.webin.core.wechat.Msg;
 import com.webin.core.wechat.MsgTag;
@@ -44,7 +43,6 @@ public class MessageFactory {
 	public void HandleGetMsg(InputStream inputStream, PrintWriter writer) throws IOException {
 		MsgTag tag = MsgTag.toBean(inputStream);
 		if (tag != null) {
-			Handle.HandleWeChat(tag, writer);
 		}
 	}
 }

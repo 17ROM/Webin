@@ -1,15 +1,13 @@
 package com.webin.core;
 
+@SuppressWarnings("serial")
 public class ErrorException extends Exception {
-
-	private static boolean Debug = false;
-
 	public ErrorException(Exception e) {
-		WebinLog.E(e.toString());
+	    System.err.println(e);
 	}
 
 	public static void SAXParser(Exception e) {
-		WebinLog.E(e.toString());
+		System.err.println(e);
 	}
 
 	public static void NullPointer(Object... objs) {
@@ -18,6 +16,6 @@ public class ErrorException extends Exception {
 		for (int i = 0; i < objs.length; i++) {
 			error.append(objs + " is null;");
 		}
-		WebinLog.E(error.toString());
+		System.err.println(error);
 	}
 }
